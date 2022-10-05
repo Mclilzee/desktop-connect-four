@@ -26,7 +26,7 @@ public class GameBoard {
         }
     }
 
-    public void addButtonsToFrame(JFrame frame) {
+    public void addButtonsToPanel(JPanel panel) {
         for (int i = rows; i > 0; i--) {
             for (char key : buttonsMap.keySet()) {
                 JButton button = new JButton(" ");
@@ -36,7 +36,7 @@ public class GameBoard {
                 button.addActionListener(e -> insertInFirstColumnElement(button));
                 buttonsMap.get(key).add(button);
 
-                frame.add(button);
+                panel.add(button);
             }
         }
     }

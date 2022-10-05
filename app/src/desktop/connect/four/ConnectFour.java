@@ -10,9 +10,19 @@ public class ConnectFour extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(400, 400);
 
-        setLayout(new GridLayout(6, 7));
-        GameBoard cellButtons = new GameBoard(rows, columns);
-        cellButtons.addButtonsToFrame(this);
+        JPanel gameBoardPanel = new JPanel(new GridLayout(rows, columns));
+        GameBoard gameBoard = new GameBoard(rows, columns);
+        gameBoard.addButtonsToPanel(gameBoardPanel);
+
+        JButton resetButton = new JButton("Reset");
+        resetButton.addActionListener(e -> gameBoard.reset());
+        JPanel windowPanel = new JPanel(new BorderLayout());
+
+        windowPanel.add(gameBoardPanel, BorderLayout.CENTER);
+        windowPanel.add(resetButton, BorderLayout.SOUTH);
+
+        add(windowPanel);
+
         setVisible(true);
     }
 }
