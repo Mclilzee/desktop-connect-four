@@ -31,7 +31,7 @@ public class GameBoard {
         for (int i = rows - 1; i >= 0; i--) {
             for (int j = 0; j < columns; j++) {
                 JButton button = new JButton(" ");
-                button.setName("Button" + ((char) (j + 65)) + i);
+                button.setName("Button" + ((char) (j + 65)) + (i + 1));
                 button.setBackground(Color.gray);
                 button.setFocusPainted(false);
                 button.addActionListener(e -> insertInFirstColumnElement(button));
@@ -49,7 +49,7 @@ public class GameBoard {
 
         int buttonColumnIndex = button.getName().charAt(6) - 65;
 
-        for (int i = this.rows - 1; i >= 0; i--) {
+        for (int i = 0; i < rows; i++) {
             JButton eachButton = buttonsBoard[i][buttonColumnIndex];
             if (eachButton.getText().isBlank()) {
                 eachButton.setText(player);
