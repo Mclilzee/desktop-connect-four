@@ -1,17 +1,18 @@
 package desktop.connect.four;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class CellButtons {
+public class GameBoard {
 
     private String player;
     private final HashMap<Character, ArrayList<JButton>> buttonsMap;
     int rows;
     int columns;
 
-    public CellButtons(int rows, int columns) {
+    public GameBoard(int rows, int columns) {
         this.rows = rows;
         this.columns = columns;
         this.player = "X";
@@ -30,6 +31,7 @@ public class CellButtons {
             for (char key : buttonsMap.keySet()) {
                 JButton button = new JButton(" ");
                 button.setName("Button" + key + i);
+                button.setBackground(Color.gray);
                 button.setFocusPainted(false);
                 button.addActionListener(e -> insertInFirstColumnElement(button));
                 buttonsMap.get(key).add(button);

@@ -11,7 +11,7 @@ public class ConnectFour extends JFrame {
         setSize(400, 400);
 
         setLayout(new GridLayout(6, 7));
-        CellButtons cellButtons = new CellButtons(rows, columns);
+        GameBoard cellButtons = new GameBoard(rows, columns);
         cellButtons.addButtonsToFrame(this);
         setVisible(true);
     }
