@@ -8,17 +8,18 @@ import java.util.HashMap;
 public class GameBoard {
 
     private String player;
-    private final HashMap<Character, ArrayList<JButton>> buttonsMap;
+    private final JButton[][] buttonsBoard;
     private final int rows;
     private final int columns;
     private final JPanel panel;
-
+    private boolean gameOver;
     public GameBoard(int rows, int columns) {
         this.rows = rows;
         this.columns = columns;
         this.player = "X";
-        this.buttonsMap = new HashMap<>();
+        this.buttonsBoard = new JButton[rows][columns];
         this.panel = new JPanel(new GridLayout(rows, columns));
+        gameOver = false;
         addButtonsToPanel();
     }
 
@@ -27,44 +28,51 @@ public class GameBoard {
     }
 
     public void addButtonsToPanel() {
-        fillButtonsMap();
-
-        for (int i = rows; i > 0; i--) {
-            for (char key : buttonsMap.keySet()) {
+        for (int i = rows - 1; i >= 0; i--) {
+            for (int j = 0; j < columns; j++) {
                 JButton button = new JButton(" ");
-                button.setName("Button" + key + i);
+                button.setName("Button" + ((char) (j + 65)) + i);
                 button.setBackground(Color.gray);
                 button.setFocusPainted(false);
                 button.addActionListener(e -> insertInFirstColumnElement(button));
-                buttonsMap.get(key).add(button);
+                buttonsBoard[i][j] = button;
 
                 panel.add(button);
             }
         }
     }
 
-    private void fillButtonsMap() {
-        for (char i = 'A'; i < 'A' + this.columns; i++) {
-            buttonsMap.put(i, new ArrayList<>());
-        }
-    }
-
     private void insertInFirstColumnElement(JButton button) {
-        char buttonColumn = button.getName().charAt(6);
-        var buttonsArray = buttonsMap.get(buttonColumn);
+        if (gameOver) {
+            return;
+        }
 
-        for (int i = buttonsArray.size() - 1; i >= 0; i--) {
-            JButton eachButton = buttonsArray.get(i);
+        int buttonColumnIndex = button.getName().charAt(6) - 65;
+
+        for (int i = this.rows - 1; i >= 0; i--) {
+            JButton eachButton = buttonsBoard[i][buttonColumnIndex];
             if (eachButton.getText().isBlank()) {
                 eachButton.setText(player);
                 player = player.equals("X") ? "O" : "X";
                 break;
             }
         }
+
+//        checkIfGameOver();
     }
 
+//    private void checkIfGameOver() {
+//        if (rowsConditionMet() || columnsConditionMet() || diagonalLeftConditionMet() || diagonalRightConditionMet()) {
+//            gameOver = true;
+//        };
+//    }
+//
+//    private boolean rowsConditionMet() {
+//
+//    }
+
     public void reset() {
-        for (ArrayList<JButton> buttons : buttonsMap.values()) {
+        for (JButton[] buttons : buttonsBoard) {
             for (JButton button : buttons) {
                 button.setText(" ");
             }
