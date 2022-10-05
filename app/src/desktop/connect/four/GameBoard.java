@@ -2,8 +2,6 @@ package desktop.connect.four;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 public class GameBoard {
 
@@ -13,6 +11,7 @@ public class GameBoard {
     private final int columns;
     private final JPanel panel;
     private boolean gameOver;
+
     public GameBoard(int rows, int columns) {
         this.rows = rows;
         this.columns = columns;
@@ -58,17 +57,15 @@ public class GameBoard {
                 break;
             }
         }
-
     }
 
     private void checkIfGameOver(int row, int column) {
-        if (rowsConditionMet(row, column)) {
+        if (rowsConditionMet(row, column) || columnsConditionMet(row, column) || leftDiagonalConditionMet(row, column) || rightDiagonalConditionMet(row, column)) {
             gameOver = true;
-        };
+        }
     }
 
     private boolean rowsConditionMet(int row, int column) {
-
 
         for (int i = row - 3; i < this.rows - 3; i++) {
             if (i < 0) {
@@ -80,16 +77,82 @@ public class GameBoard {
             JButton third = buttonsBoard[i + 2][column];
             JButton fourth = buttonsBoard[i + 3][column];
 
-            if (!first.getText().isBlank() && first.getText().equals(second.getText()) && first.getText().equals(third.getText()) && first.getText().equals(fourth.getText())) {
-                first.setBackground(Color.GREEN);
-                second.setBackground(Color.GREEN);
-                third.setBackground(Color.GREEN);
-                fourth.setBackground(Color.GREEN);
+            if (buttonsAreEqual(first, second, third, fourth)) {
+
                 return true;
             }
         }
 
         return false;
+    }
+
+    private boolean columnsConditionMet(int row, int column) {
+        for (int i = column - 3; i < this.columns - 3; i++) {
+            if (i < 0) {
+                continue;
+            }
+
+            JButton first = buttonsBoard[row][i];
+            JButton second = buttonsBoard[row][i + 1];
+            JButton third = buttonsBoard[row][i + 2];
+            JButton fourth = buttonsBoard[row][i + 3];
+
+            if (buttonsAreEqual(first, second, third, fourth)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private boolean leftDiagonalConditionMet(int row, int column) {
+        for (int i = - 3; row + i + 3 < this.rows && column + i + 3 < this.columns; i++) {
+            if (row + i < 0 || column + i < 0) {
+                continue;
+            }
+
+            JButton first = buttonsBoard[row + i][column + i];
+            JButton second = buttonsBoard[row + i + 1][column + i + 1];
+            JButton third = buttonsBoard[row + i + 2][column + i + 2];
+            JButton fourth = buttonsBoard[row + i + 3][column + i + 3];
+
+            if (buttonsAreEqual(first, second, third, fourth)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private boolean rightDiagonalConditionMet(int row, int column) {
+        for (int i = - 3; row + i + 3 < this.rows && column - i - 3 < this.columns; i++) {
+            if (row + i < 0 || column - i >= this.columns) {
+                continue;
+            }
+
+            JButton first = buttonsBoard[row + i][column - i];
+            JButton second = buttonsBoard[row + i + 1][column - i - 1];
+            JButton third = buttonsBoard[row + i + 2][column - i - 2];
+            JButton fourth = buttonsBoard[row + i + 3][column - i - 3];
+
+            if (buttonsAreEqual(first, second, third, fourth)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private boolean buttonsAreEqual(JButton first, JButton second, JButton third, JButton fourth) {
+        if (!first.getText().isBlank() && first.getText().equals(second.getText()) && first.getText().equals(third.getText()) && first.getText().equals(fourth.getText())) {
+            first.setBackground(Color.GREEN);
+            second.setBackground(Color.GREEN);
+            third.setBackground(Color.GREEN);
+            fourth.setBackground(Color.GREEN);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public void reset() {
