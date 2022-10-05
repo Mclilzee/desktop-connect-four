@@ -9,24 +9,26 @@ public class GameBoard {
 
     private String player;
     private final HashMap<Character, ArrayList<JButton>> buttonsMap;
-    int rows;
-    int columns;
+    private final int rows;
+    private final int columns;
+    private final JPanel panel;
 
     public GameBoard(int rows, int columns) {
         this.rows = rows;
         this.columns = columns;
         this.player = "X";
         this.buttonsMap = new HashMap<>();
+        this.panel = new JPanel(new GridLayout(rows, columns));
+        addButtonsToPanel();
+    }
+
+    public JPanel getPanel() {
+        return this.panel;
+    }
+
+    public void addButtonsToPanel() {
         fillButtonsMap();
-    }
 
-    private void fillButtonsMap() {
-        for (char i = 'A'; i < 'A' + this.columns; i++) {
-            buttonsMap.put(i, new ArrayList<>());
-        }
-    }
-
-    public void addButtonsToPanel(JPanel panel) {
         for (int i = rows; i > 0; i--) {
             for (char key : buttonsMap.keySet()) {
                 JButton button = new JButton(" ");
@@ -38,6 +40,12 @@ public class GameBoard {
 
                 panel.add(button);
             }
+        }
+    }
+
+    private void fillButtonsMap() {
+        for (char i = 'A'; i < 'A' + this.columns; i++) {
+            buttonsMap.put(i, new ArrayList<>());
         }
     }
 
@@ -53,5 +61,15 @@ public class GameBoard {
                 break;
             }
         }
+    }
+
+    public void reset() {
+        for (ArrayList<JButton> buttons : buttonsMap.values()) {
+            for (JButton button : buttons) {
+                button.setText(" ");
+            }
+        }
+
+        player = "X";
     }
 }
