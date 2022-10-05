@@ -2,8 +2,6 @@ package desktop.connect.four;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 public class ConnectFour extends JFrame {
 
@@ -13,7 +11,8 @@ public class ConnectFour extends JFrame {
         setSize(400, 400);
 
         setLayout(new GridLayout(6, 7));
-
+        CellButtons cellButtons = new CellButtons(rows, columns);
+        cellButtons.addButtonsToFrame(this);
         setVisible(true);
     }
 }

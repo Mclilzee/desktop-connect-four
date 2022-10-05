@@ -7,7 +7,7 @@ import java.util.HashMap;
 public class CellButtons {
 
     private String player;
-    private HashMap<Character, ArrayList<JButton>> buttonsMap;
+    private final HashMap<Character, ArrayList<JButton>> buttonsMap;
     int rows;
     int columns;
 
